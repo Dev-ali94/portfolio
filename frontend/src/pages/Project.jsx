@@ -2,8 +2,10 @@ import { useState } from "react";
 import Category from "../components/Category";
 import ProjectCard from "./ProjectCard";
 import { assests } from '../assets/assets'
+import { useParams } from "react-router-dom";
 
 const Project = () => {
+  const { slug } = useParams();
   const [activeCategory, setActiveCategory] = useState("frontend");
   const categories = [
     { id: "frontend", name: "Frontend" },
@@ -15,6 +17,7 @@ const Project = () => {
   const projects = [
     {
       id: 1,
+       slug: "my-protfolio",
       title: "Portfolio Website",
       description: "A modern responsive portfolio built with React and Tailwind CSS. A modern responsive portfolio built with React and Tailwind CSS.",
       image: assests.github_icon,
@@ -68,6 +71,11 @@ const Project = () => {
       category: "frontend",
     },
   ];
+const project = projects.find((p) => p.slug === slug);
+
+  if (!project) {
+    return <p className="text-center text-red-500 mt-6">Project not found</p>;
+  }
 
   const filteredProjects =
     activeCategory === "all"
