@@ -5,13 +5,13 @@ const Footer = () => {
   return (
     <footer className="w-full bg-[#1f1f23] text-gray-300 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-        
+
         {/* Brand / About */}
         <div>
           <h2 className="text-xl font-bold text-white">MyPortfolio</h2>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-            Showcasing my work, skills, and projects.  
-            Let’s build something great together 🚀
+            Showcasing my work, skills, and projects.
+            Let’s build something great together 
           </p>
         </div>
 

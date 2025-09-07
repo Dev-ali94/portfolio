@@ -7,3 +7,6 @@
     font-family: font2;
     src: url(../public/fonts/Lausanne-500.woff2);
 }
+*{
+    cursor: pointer;
+}
