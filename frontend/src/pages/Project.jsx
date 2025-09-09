@@ -1,110 +1,109 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FaEye } from "react-icons/fa";
+import { Projectcards } from "../data/project";
 import Category from "../components/Category";
-import ProjectCard from "./ProjectCard";
-import { assests } from '../assets/assets'
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigate hook
 
 const Project = () => {
-  const { slug } = useParams();
   const [activeCategory, setActiveCategory] = useState("frontend");
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [isTouch, setIsTouch] = useState(false);
+  const navigate = useNavigate(); // ✅ Initialize navigate
+
   const categories = [
     { id: "frontend", name: "Frontend" },
     { id: "backend", name: "Backend" },
     { id: "tool", name: "Tool" },
+    { id: "all", name: "All" },
   ];
 
-  // 🔹 Data lives here
-  const projects = [
-    {
-      id: 1,
-       slug: "my-protfolio",
-      title: "Portfolio Website",
-      description: "A modern responsive portfolio built with React and Tailwind CSS. A modern responsive portfolio built with React and Tailwind CSS.",
-      image: assests.github_icon,
-      link: "#",
-      stack: ["React", "Tailwind", "Framer Motion"],
-      category: "frontend",
-    },
-    {
-      id: 2,
-      title: "E-commerce Store",
-      description: "Full-stack e-commerce store with authentication and payment gateway.",
-      image: "https://via.placeholder.com/400x250",
-      link: "#",
-      stack: ["Next.js", "Node.js", "MongoDB"],
-      category: "backend",
-    },
-    {
-      id: 3,
-      title: "AI Chatbot",
-      description: "AI-powered chatbot with NLP integration and real-time chat.",
-      image: "https://via.placeholder.com/400x250",
-      link: "#",
-      stack: ["Python", "Flask", "React"],
-      category: "tool",
-    },
-    {
-      id: 4,
-      title: "Portfolio Website",
-      description: "A modern responsive portfolio built with React and Tailwind CSS. A modern responsive portfolio built with React and Tailwind CSS.",
-      image: assests.github_icon,
-      link: "#",
-      stack: ["React", "Tailwind", "Framer Motion"],
-      category: "frontend",
-    },
-    {
-      id: 5,
-      title: "Portfolio Website",
-      description: "A modern responsive portfolio built with React and Tailwind CSS. A modern responsive portfolio built with React and Tailwind CSS.",
-      image: assests.github_icon,
-      link: "#",
-      stack: ["React", "Tailwind", "Framer Motion"],
-      category: "frontend",
-    },
-    {
-      id: 6,
-      title: "Portfolio Website",
-      description: "A modern responsive portfolio built with React and Tailwind CSS. A modern responsive portfolio built with React and Tailwind CSS.",
-      image: assests.github_icon,
-      link: "#",
-      stack: ["React", "Tailwind", "Framer Motion"],
-      category: "frontend",
-    },
-  ];
-const project = projects.find((p) => p.slug === slug);
+  // Detect touch device
+  useEffect(() => {
+    const checkTouch = () =>
+      setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    checkTouch();
+    window.addEventListener("resize", checkTouch);
+    return () => window.removeEventListener("resize", checkTouch);
+  }, []);
 
-  if (!project) {
-    return <p className="text-center text-red-500 mt-6">Project not found</p>;
-  }
+  const handleTap = (index) => {
+    setActiveIndex(index === activeIndex ? null : index);
+  };
 
   const filteredProjects =
     activeCategory === "all"
-      ? projects
-      : projects.filter((card) => card.category === activeCategory);
+      ? Projectcards
+      : Projectcards.filter((card) => card.category === activeCategory);
 
   return (
-    <div id="project" className=" min-h-screen w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12
-       2xl:px-16 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 2xl:py-24
-        flex flex-col items-center gap-y-4 ">
-      {/*heading*/}
-      <div className="flex flex-col items-center px-4 sm:px-6 md:px-0 mb-2 sm:mb-2 md:mb-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl uppercase
-         text-white font-[font2] text-center leading-tight">
+    <div
+      id="project"
+      className="min-h-screen w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-12 flex flex-col items-center gap-y-4"
+    >
+      {/* Heading */}
+      <div className="flex flex-col items-center mb-8">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl uppercase text-white font-[font2] text-center">
           My Recent Work
         </h2>
-        <span className="mt-3 h-1 w-20 sm:w-24 md:w-32 lg:w-40 xl:w-48 bg-purple-900 rounded-2xl"></span>
+        <span className="mt-3 h-1 w-32 bg-purple-900 rounded-2xl"></span>
       </div>
+
       {/* Categories */}
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-5xl mb-6">
         <Category
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
           categories={categories}
         />
       </div>
+
       {/* Projects Grid */}
-      <div className="w-full max-w-7xl">
-        <ProjectCard projects={filteredProjects} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl px-4 md:px-6">
+        {filteredProjects.map((project, index) => (
+          <div
+            key={project.id}
+            className="relative w-full rounded-2xl overflow-hidden cursor-pointer bg-white/10 backdrop-blur-lg group"
+            onClick={() => isTouch && handleTap(index)} // touch devices toggle overlay
+          >
+            {/* Image */}
+            <div className="w-full aspect-[4/3] bg-white/5 overflow-hidden rounded-b-3xl">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+            </div>
+
+            {/* Title */}
+            <h2 className="p-2 font-[font2] text-lg text-white">
+              {project.title}
+            </h2>
+
+            {/* Overlay */}
+            <div
+              className={`absolute inset-0 bg-black/60 flex items-center justify-center transition-opacity duration-300 rounded-2xl
+                ${
+                  isTouch
+                    ? activeIndex === index
+                      ? "opacity-100"
+                      : "opacity-0"
+                    : "opacity-0 group-hover:opacity-100"
+                }`}
+            >
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/project/${project.slug}`); // ✅ Navigate to slug route
+                }}
+                className="bg-gradient-to-br from-purple-800 via-purple-900 to-purple-950 
+                         hover:from-purple-700 hover:via-purple-800 hover:to-purple-900
+                         text-white p-4 rounded-full shadow-lg transition-all duration-300"
+              >
+                <FaEye className="text-2xl" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

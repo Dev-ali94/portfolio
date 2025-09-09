@@ -1,53 +1,7 @@
 import React from 'react'
 import { assests } from '../assets/assets'
-
+import { Aboutcard,Progresscard } from '../data/about'
 const About = () => {
-
-  const Aboutcard = [
-    {
-      id: 1, title: "React",
-      image: assests.github_icon,
-      description: "Full-stack developer with over 1 year of experience in web development."
-    },
-    {
-      id: 2, title: "Node.js",
-      image: assests.github_icon,
-      description: "I enjoy building scalable backend systems and APIs."
-    },
-    {
-      id: 3, title: "MongoDB",
-      image: assests.github_icon,
-      description: "Passionate about data-driven applications and clean architecture."
-    },
-  ];
-
-  const Progresscard = [
-    {
-      id: 1,
-      title: "Projects Completed",
-      count: 2,
-      image: assests.github_icon
-    },
-    {
-      id: 2,
-      title: "Technologies Used",
-      count: 10,
-      image: assests.github_icon
-    },
-    {
-      id: 3,
-      title: "Years of Experience",
-      count: 1,
-      image: assests.github_icon
-    },
-    {
-      id: 4,
-      title: "Clients Worked With",
-      count: 5,
-      image: assests.github_icon
-    }
-  ];
-
   return (
     <div id='about' className=' flex flex-col items-center w-full h-full px-4 sm:px-6 
     md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-8 md:py-12 lg:py-16'>

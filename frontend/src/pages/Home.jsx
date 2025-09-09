@@ -3,11 +3,13 @@ import DotGrid from '../components/DotGrid'
 import Navbar from '../components/Navbar'
 import Hero from './Hero'
 import About from './About'
-import Skill from './Skill'
+
 import Project from './Project'
 import Services from './Services'
 import Contact from './Contact'
 import Footer from '../components/Footer'
+
+import Skill from './Skill'
 
 const Home = () => {
   return (
@@ -34,7 +36,7 @@ const Home = () => {
       <div className="flex flex-col items-center w-full max-w-full">
         <Hero />
         <About />
-        <Skill />
+       <Skill />
         <Project />
         <Services />
         <Contact />
